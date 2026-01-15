@@ -1,3 +1,3 @@
-from search import searchY
+from searchy import searchY
 
 __version__ = "0.1.0"

@@ -1,7 +1,7 @@
 from unittest.mock import patch, MagicMock
 import pytest
 import os
-from Searchy import searchy  # Ajuste o nome do import para o seu arquivo
+import hever  # Ajuste o nome do import para o seu arquivo
 
 @pytest.fixture
 def fs_setup(tmp_path):
@@ -25,9 +25,9 @@ def fs_setup(tmp_path):
     return tmp_path
 
 # 1. Teste de Profundidade (Depth)
-def test_search_depth_zero(fs_setup):
+def test_hever_depth_zero(fs_setup):
     # Depth 0: Deve ver apenas o que está na raiz (2 arquivos + 1 pasta)
-    resultado = list(searchy(str(fs_setup), depth=0))
+    resultado = list(hever(str(fs_setup), depth=0))
     nomes = [item["name"] for item in resultado]
     
     assert len(resultado) == 3
@@ -35,48 +35,48 @@ def test_search_depth_zero(fs_setup):
     assert "pasta_a" in nomes
     assert "arquivo_a.txt" not in nomes  # Está no subdiretório
 
-def test_search_depth_one(fs_setup):
+def test_hever_depth_one(fs_setup):
     # Depth 1: Deve ver a raiz e entrar um nível (deve achar o arquivo_a.txt)
-    resultado = list(searchy(str(fs_setup), depth=1))
+    resultado = list(hever(str(fs_setup), depth=1))
     nomes = [item["name"] for item in resultado]
     
     assert "arquivo_a.txt" in nomes
 
-# 2. Teste de Tipo (typeSearch)
-def test_search_filter_files(fs_setup):
+# 2. Teste de Tipo (typehever)
+def test_hever_filter_files(fs_setup):
     # Filtra apenas por arquivos (singular)
-    resultado = list(searchy(str(fs_setup), typeSearch="file", depth=1))
+    resultado = list(hever(str(fs_setup), typehever="file", depth=1))
     for item in resultado:
         assert item["type"] == "file"
     
     nomes = [item["name"] for item in resultado]
     assert "pasta_a" not in nomes
 
-def test_search_filter_dirs_plural(fs_setup):
+def test_hever_filter_dirs_plural(fs_setup):
     # Filtra apenas por diretórios (plural)
-    resultado = list(searchy(str(fs_setup), typeSearch="dirs", depth=1))
+    resultado = list(hever(str(fs_setup), typehever="dirs", depth=1))
     assert len(resultado) == 1
     assert resultado[0]["name"] == "pasta_a"
     assert resultado[0]["type"] == "directory"
 
 # 3. Teste de Padrão (Pattern)
-def test_search_pattern_match(fs_setup):
+def test_hever_pattern_match(fs_setup):
     # Busca apenas quem tem "imagem" no nome
-    resultado = list(searchy(str(fs_setup), Pattern={"imagem"}))
+    resultado = list(hever(str(fs_setup), Pattern={"imagem"}))
     assert len(resultado) == 1
     assert resultado[0]["name"] == "imagem_raiz.png"
 
-def test_search_pattern_case_insensitive(fs_setup):
+def test_hever_pattern_case_insensitive(fs_setup):
     # Busca com letra maiúscula para testar o lower()
-    resultado = list(searchy(str(fs_setup), Pattern={"ARQUIVO"}))
+    resultado = list(hever(str(fs_setup), Pattern={"ARQUIVO"}))
     # Deve achar 'arquivo_raiz.txt' e 'arquivo_a.txt' (se depth fosse maior)
     # Como o padrão é depth=0, acha só o da raiz
     nomes = [item["name"] for item in resultado]
     assert "arquivo_raiz.txt" in nomes
 
 # 4. Teste da Estrutura do Dicionário
-def test_search_dict_structure(fs_setup):
-    resultado = list(searchy(str(fs_setup), depth=0))
+def test_hever_dict_structure(fs_setup):
+    resultado = list(hever(str(fs_setup), depth=0))
     item = resultado[0]
     
     chaves_esperadas = {"name", "size_kb", "modification", "creation", "path", "type"}
@@ -85,7 +85,7 @@ def test_search_dict_structure(fs_setup):
     assert "/" in item["modification"]  # Formato dd/mm/yyyy e o esperado
     
     # 1. Testando Erro de Permissão (PermissionError) ======= nao tinha funcionado ai fiz o que deu pra corrigir
-def test_search_permission_error(tmp_path):
+def test_hever_permission_error(tmp_path):
     # Criamos uma pasta real
     pasta = tmp_path / "pasta_bloqueada"
     pasta.mkdir()
@@ -96,13 +96,13 @@ def test_search_permission_error(tmp_path):
         mock_scandir.side_effect = PermissionError("Acesso negado")
         
         # O resultado deve ser um gerador vazio, e NÃO deve travar o programa
-        resultado = list(searchy(str(pasta)))
+        resultado = list(hever(str(pasta)))
         
         assert len(resultado) == 0
         mock_scandir.assert_called_once()
 
 # 2. Testando OSError durante o processamento de um arquivo
-def test_search_os_error_handling(tmp_path, capsys):
+def test_hever_os_error_handling(tmp_path, capsys):
     # Criamos um arquivo real
     f = tmp_path / "arquivo_problematico.txt"
     f.write_text("conteudo")
@@ -121,7 +121,7 @@ def test_search_os_error_handling(tmp_path, capsys):
         # O mock_scandir quando usado com 'with' (context manager)
         mock_scandir.return_value.__enter__.return_value = [mock_entry]
         
-        resultado = list(searchy(str(tmp_path)))
+        resultado = list(hever(str(tmp_path)))
         
         # O item não deve ser adicionado (pois o stat falhou)
         assert len(resultado) == 0

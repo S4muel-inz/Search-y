@@ -1,4 +1,4 @@
-## Search-Y
+## Heter
 
 Uma ferramenta Python leve e eficiente para busca de arquivos e diretórios. Utiliza **Geradores (`yield`)** para garantir que o consumo de memória RAM permaneça baixo, mesmo ao escanear milhões de arquivos.
 
@@ -13,39 +13,39 @@ Uma ferramenta Python leve e eficiente para busca de arquivos e diretórios. Uti
 
 ### **Instalando a Biblioteca**:
 ```Bash
-pip install Search-y    
+pip install hever    
 ```
 ### **Importando a Biblioteca**
 Pode importar a biblioteca apenas passando seu nome
 ```Python
-import searchy
+import hever
 ```
 ### **Parametros**:
-O searchy pode receber até 4 Parametros sendo apenas um deles obrigatorio e posicional:
+O hever pode receber até 4 Parametros sendo apenas um deles obrigatorio e posicional:
 - **Path** é o unico argumento é deve ser apresentado como uma String
 ```Python
-searchy("C:/User/seuUsuario/seuCaminho") 
+hever("C:/User/seuUsuario/seuCaminho") 
 ```
 - **typeSearch**: é um parametro opcional que recebe uma *string* que defini quais tipos de arquivo serão buscados; 
     - Podendo ser *'dir'* para diretorios/pastas: 
      ```Python
-     searchy('C:/', typesearch='dir'): #seram buscados apenas pastas/diretorios no caminho 'C:/'
+     hever('C:/', typesearch='dir'): #seram buscados apenas pastas/diretorios no caminho 'C:/'
      ```
     - Podendo ser *'file'* para arquivos:
     ```Python
-     searchy('C:/', typesearch='file'): #seram buscados apenas arquivos nesse caso
+     hever('C:/', typesearch='file'): #seram buscados apenas arquivos nesse caso
     ```
     > [!WARNING] 
     >Se não for passado nenhum argumento no parametro **typeSearch** ele mostrara tudo encontrado:
     ```Python
-     searchy('C:/'): #sera buscado tudo que tem na pasta 'C:/' 
+     hever('C:/'): #sera buscado tudo que tem na pasta 'C:/' 
      ```
     > [!WARNING] 
     >Mesmo se for passado um argumento que não existe
 
 - **Pattern**: é um parametro opcional que funciona como um filtro de nomes sobre o resultado da busca:
 ```Python
- searchy('C:/', Pattern={'program', 'win', 'xbox'}): #sera buscado na pasta 'C:/' todos os arquivos e diretorios que tem 'program', 'win', 'xbox' no nome
+ hever('C:/', Pattern={'program', 'win', 'xbox'}): #sera buscado na pasta 'C:/' todos os arquivos e diretorios que tem 'program', 'win', 'xbox' no nome
 ```
 > [!WARNING]
     > Para passar valores no Pattern esses itens devem ser uma *string* dentro do *set* do Pattern.
@@ -53,7 +53,7 @@ searchy("C:/User/seuUsuario/seuCaminho")
 
 - **Depth**: é um parametro opcional que recebe um valor *int* que determina quantas subpastas serão buscadas tambem:
 ```Python
-searchy('C:/', Depth=2): #toda pasta que ele achar no caminho que você passou ele ira abrir, e assim por diante de acordo com o valor do *depth*
+hever('C:/', Depth=2): #toda pasta que ele achar no caminho que você passou ele ira abrir, e assim por diante de acordo com o valor do *depth*
 ```
 >[!TIP]
 >Passar valores maiores no **Depth** tambem resultara em listas mais longas, mas o tempo de procura será o mesmo

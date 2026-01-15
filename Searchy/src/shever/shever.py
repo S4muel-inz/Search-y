@@ -16,7 +16,7 @@ def process_entry(object, format_data):
 
 try:
 
-    def searchy(Path, typeSearch="all", Pattern=None, depth=0):
+    def hever(Path, typeSearch="all", Pattern=None, depth=0):
         have_patterns = set(Pattern) if Pattern else set()
         try:
             with os.scandir(Path) as it:
@@ -25,7 +25,7 @@ try:
 
                         if depth > 0 and entries.is_dir():
                             # aqui o valor depth esta sendo subtraido -1
-                            yield from searchy(
+                            yield from hever(
                                 entries.path, typeSearch, Pattern, depth - 1
                             )
 

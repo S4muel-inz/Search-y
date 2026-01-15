@@ -3,7 +3,7 @@ requires = ["hatchling>=1.13.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "search-in"
+name = "hever"
 dynamic = ["version"]
 description = "Um buscador de arquivos recursivo, ultra-eficiente em memória usando geradores Python."
 readme = "README.md"
@@ -23,10 +23,10 @@ classifiers = [
 Homepage = "https://github.com/S4muel-inz/Search-y"
 
 [tool.hatch.version]
-path = "src/searchy/__init__.py"
+path = "src/shever/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/searchy"]
+packages = ["src/shever"]
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/tests"]

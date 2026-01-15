@@ -3,16 +3,16 @@ requires = ["hatchling>=1.13.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "Search-y"
+name = "search-in"
 dynamic = ["version"]
-authors = [
-    {name = "Samuel Prevideli", email = "samuelprevideli@gmail.com"}
-]
-requires-python = ">= 3.10"
+description = "Um buscador de arquivos recursivo, ultra-eficiente em memória usando geradores Python."
 readme = "README.md"
-description = "A recursive, ultra-memory-efficient file searcher using Python generators."
+requires-python = ">=3.10"
+license = { text = "MIT" }
 keywords = ["search", "generator", "os.scandir", "recursive", "files"]
-license = {file = "LICENSE"}
+authors = [
+    { name = "Samuel Prevideli", email = "samuelprevideli@gmail.com" }
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -20,27 +20,13 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/S4muel-inz/Search-y.git"
-
-# --- CONFIGURAÇÕES DO HATCHLING ---
+Homepage = "https://github.com/S4muel-inz/Search-y"
 
 [tool.hatch.version]
 path = "src/searchy/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-# Isso garante que apenas o conteúdo de 'src' seja empacotado
 packages = ["src/searchy"]
 
 [tool.hatch.build.targets.sdist]
-# Isso evita que a pasta de testes seja enviada para o PyPI (usuário final)
 exclude = ["/tests"]
-
-# --- OPCIONAL: AMBIENTE DE TESTES ---
-
-[tool.hatch.envs.default]
-dependencies = [
-  "pytest",
-]
-
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"

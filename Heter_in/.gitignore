@@ -1,0 +1,7 @@
+__pycache__
+.pytest_cache
+dist/
+*.pyc
+.venv/
+atas_auto/
+Auto.py
